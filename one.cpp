@@ -4,6 +4,8 @@ using namespace std;
 #include "reservation.h"
 #include "meal.h"
 #include "dininghall.h"
+//student
+
 Student::Student()
 {
    _user_id=000000000;
@@ -23,8 +25,45 @@ void Student::print()const
 
 }
 
-//void Student::reserve_meal(Meal food)
-//void Student:: cancel_reservation(Reservation reserve)
+void Student::reserve_meal(Meal food)
+{
+    Reservation new_reserve;
+    food.print();
+    if (_balance>=food.getprice())
+    {
+        new_reserve.setstudent(*this);
+        new_reserve.setmeal(food);
+        //new_reserve.setdininghall();
+        //new_reserve.setcareatedat();
+        new_reserve.setstatus(Success);
+        //new_reserve.getreserveid();
+
+        _balance-=food.getprice();
+        _reservations.push_back(new_reserve);
+        cout<<"\nReservation was successful.";
+    }
+    else
+        cout<<"\nNot enough inventory!";
+    
+}
+bool Student:: cancel_reservation(Reservation reserve)
+{
+     char ans;
+     if(reserve.getstatus()==Success){
+     cout<<"\nAre you sure you want to cancel? Y/N";
+     cin>>ans;
+     if (ans=='y'||ans=='Y')
+     {
+        reserve.setstatus(Cancelled);
+        _balance+=reserve.getmeal().getprice();
+        return true;
+     }
+    }
+    return false;
+     
+}
+
+//reservation
 
 Reservation::Reservation()
     : _reservation_id(0),
@@ -39,7 +78,14 @@ void Reservation::print()const
     cout<<"\n---Reaservation info---"<<"\nReservation ID: "<<getreserveid()<<"\nStudent name: "<<getstudent().getname()<<"\tStudent ID: "<<getstudent().getstudentid()
     <<"\nMeal: "<<getmeal().getname()<<"\tDining Hall: "<<getdininghall().getname()<<getdininghall().gethallid()<<"\nTime:"<<getcreatedat();
 }
-//void Reservation::cancel()
+bool Reservation::cancel()
+{
+    Status(Cancelled);
+    cout<<"Reservation cancelled.";
+    return true;
+}
+
+//meal
 
 Meal::Meal()
     :_meal_id(0),
@@ -59,8 +105,21 @@ void Meal::print()const
     cout<<"\nPrice: "<<getprice()<<"\tMeal ID: "<<getmealid();
 }
 
-//void Meal::update_price(float new_price){}
-//void Meal::add_side_item(string item){}
+void Meal::update_price(float new_price)
+{
+    setprice(new_price);
+    cout<<"Price Updated.";
+}
+void Meal::add_side_item(string item)
+{   
+    for (const string &sideitems:_side_items)
+        if (sideitems==item)
+           {cout<<"You already have it!";}
+    
+    _side_items.push_back(item);
+}
+
+//dininghall
 
 DiningHall::DiningHall()
      :_hall_id(0),

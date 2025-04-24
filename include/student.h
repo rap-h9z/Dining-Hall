@@ -15,6 +15,7 @@ class Student
     string _email;
     float _balance;
     bool _is_active;
+    vector<Reservation> _reservations;
     public:
     Student();
     void print()const;
@@ -50,6 +51,7 @@ class Student
     }
     void setbalance(float balance){_balance=(balance>=0)?balance:0;}
     void setactive(bool active){_is_active=active;}
+    void setreservations(vector<Reservation> reservations){_reservations=reservations;}
 
     //getters()
     int getuserid()const{return _user_id;}
@@ -58,5 +60,6 @@ class Student
     string getemail()const{return _email;}
     float getbalance()const{return _balance;}
     bool getactive()const{return _is_active;}
+    vector<Reservation> getreservations()const{return _reservations;}
 };
 #endif
