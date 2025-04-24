@@ -24,10 +24,10 @@ class Student
     //setters()
     void setuserid(int userid)
     {
-       if (userid>0&&userid>9999999)
+       if (userid>=10000000)
           _user_id=userid;
         else
-            __throw_invalid_argument("User ID must be at least 8 digits.");  
+            throw runtime_error("User ID must be at least 8 digits.");  
        
     }
     void setstudentid(string studentid)
@@ -36,16 +36,16 @@ class Student
             _student_id=studentid;
         else
         {
-            __throw_invalid_argument("Student ID must be 10 digits.");
+            throw runtime_error("Student ID must be 10 digits.");
         }
     }
     void setname(string name){_name=name;}
     void setemail(string email)
     {
-        if(email.find('@gimail.com'))
+        if(email.find('@gimail.com')!=string::npos)
            _email=email;
         else 
-           __throw_invalid_argument("INVALID !!");
+           throw runtime_error("INVALID !!");
 
     }
     void setbalance(float balance){_balance=(balance>=0)?balance:0;}

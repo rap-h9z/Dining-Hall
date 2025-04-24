@@ -21,7 +21,10 @@ class DiningHall
     }
     void setname(string name){_name=name;}
     void setadd(string add){_address=add;}
-    void setcapacity(int capacity){_capacity=(capacity>=0)?capacity:0;}
+    void setcapacity(int capacity)
+    {
+        _capacity=(capacity>=0)?capacity:0;
+    }
 
     //getters()
     int gethallid()const{return _hall_id;}

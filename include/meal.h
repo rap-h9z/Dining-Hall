@@ -28,7 +28,7 @@ class Meal
     {
         _price=((price>=0)?price:0);
     }
-    void setenum(MealT mealtype){_meal_type=mealtype;}
+    void setmealtype(MealT mealtype){_meal_type=mealtype;}
     void setsideitems(vector<string> sideitem){_side_items=sideitem;}
 
     //getters()

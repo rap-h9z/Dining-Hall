@@ -26,7 +26,7 @@ class Reservation
     void setstudent(Student student){_student=student;}
     void setdininghall(DiningHall dhall){_dHall=dhall;}
     void setmeal(Meal meal){_meal=meal;}
-    void setenum(Status status){_status=status;}
+    void setstatus(Status status){_status=status;}
     void setcareatedat(time_t createdat)
     {
         _created_at=((createdat>=0)?createdat:0);
