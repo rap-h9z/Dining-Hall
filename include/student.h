@@ -2,6 +2,7 @@
 #define STUDENT_H_INCLUDED
 #include <iostream>
 #include <string.h>
+#include <algorithm>
 #include "meal.h"
 #include "reservation.h"
 using namespace std;
@@ -21,19 +22,41 @@ class Student
     bool cancel_reservation(Reservation);
 
     //setters()
-    void setuserid(int userid);
-    void setstudentid(string studentid);
+    void setuserid(int userid)
+    {
+       if (userid>0&&userid>9999999)
+          _user_id=userid;
+        else
+            __throw_invalid_argument("User ID must be at least 8 digits.");  
+       
+    }
+    void setstudentid(string studentid)
+    {
+        if (studentid.length()==10&& all_of(studentid.begin(),studentid.end(),::isdigit))
+            _student_id=studentid;
+        else
+        {
+            __throw_invalid_argument("Student ID must be 10 digits.");
+        }
+    }
     void setname(string name){_name=name;}
-    void setemail(string email);
+    void setemail(string email)
+    {
+        if(email.find('@gimail.com'))
+           _email=email;
+        else 
+           __throw_invalid_argument("INVALID !!");
+
+    }
     void setbalance(float balance){_balance=(balance>=0)?balance:0;}
     void setactive(bool active){_is_active=active;}
 
     //getters()
-    int getuserid(){return _user_id;}
-    string getstudentid(){return _student_id;}
-    string getname(){return _name;}
-    string getemail(){return _email;}
-    float getbalance(){return _balance;}
-    bool getactive(){return _is_active;}
+    int getuserid()const{return _user_id;}
+    string getstudentid()const{return _student_id;}
+    string getname()const{return _name;}
+    string getemail()const{return _email;}
+    float getbalance()const{return _balance;}
+    bool getactive()const{return _is_active;}
 };
 #endif
