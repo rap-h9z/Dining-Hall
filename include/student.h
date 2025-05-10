@@ -71,6 +71,7 @@ class Student:public User
     string getstudentid()const{return _student_id;}
     string getname()const{return _name;}
     string getemail()const{return _email;}
+    string getphone()const{return _phone;}
     float getbalance()const{return _balance;}
     bool getactive()const{return _is_active;}
     vector<Reservation> getreservations()const{return _reservations;}

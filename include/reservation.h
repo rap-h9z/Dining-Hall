@@ -2,7 +2,6 @@
 #define RESERVATION_H_INCLUDED
 #include <string.h>
 #include <iostream>
-#include "student.h"
 #include "dininghall.h"
 using namespace std;
 

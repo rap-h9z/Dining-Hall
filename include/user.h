@@ -10,6 +10,7 @@ class User
     string _last_name;
     string _hashedpassword;
     public:
+    User(int userid=000000,string name=" ",string lastname=" ",string hashedpass=" ");
     virtual void print()const;
     virtual void getType();
 
@@ -20,10 +21,10 @@ class User
     void sethashedpass(string hashedpass){_hashedpassword=hashedpass;}
 
     //getters
-    int getuseid(){return _user_ID;}
-    string getname(){return _name;}
-    string getlastname(){return _last_name;}
-    string gethashedpass(){return _hashedpassword;}
+    int getuserid()const{return _user_ID;}
+    string getname()const{return _name;}
+    string getlastname()const{return _last_name;}
+    string gethashedpass()const{return _hashedpassword;}
 
 };
 #endif

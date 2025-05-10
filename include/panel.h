@@ -6,7 +6,7 @@ using namespace std;
 class Panel
 {
     public:
-    void _action(int);
+    void action(int);
     void showmenu();
     void showStudentInfo();
     void checkBalance();

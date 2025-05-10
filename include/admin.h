@@ -1,5 +1,5 @@
-#ifndef USER_H_INCLUDED
-#define USER_H_iNCLUDED
+#ifndef USER_H
+#define USER_H
 #include <iostream>
 #include "user.h"
 using namespace std;

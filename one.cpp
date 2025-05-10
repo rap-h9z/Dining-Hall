@@ -1,9 +1,13 @@
 using namespace std;
 #include <iostream>
-#include "student.h"
-#include "reservation.h"
-#include "meal.h"
-#include "dininghall.h"
+#include "include/student.h"
+#include "include/reservation.h"
+#include "include/meal.h"
+#include "include/dininghall.h"
+#include "include/admin.h"
+#include "include/panel.h"
+#include "include/storage.h"
+#include"include/user.h"
 //student
 
 Student::Student()
@@ -14,10 +18,11 @@ Student::Student()
    _email="Unknown@gmail.com";
    _balance=0.00;
    _is_active=false;
+   _phone="0900000000000";
 }
 void Student::print()const
 {
-    cout<<"\n---Student info---"<<"\nUser ID: "<<getuserid()<<"\tUsername: "<<getname()<<"\nEmail: "<<getemail()<<"\nBalance: "<<getbalance()<<"\tStatus: ";
+    cout<<"\n---Student info---"<<"\nUser ID: "<<getuserid()<<"\tUsername: "<<getname()<<"\nPhone: "<<getphone()<<"\nEmail: "<<getemail()<<"\nBalance: "<<getbalance()<<"\tStatus: ";
     if(getactive())
        cout<<"Active";
     else
@@ -31,7 +36,6 @@ void Student::reserve_meal(Meal food)
     food.print();
     if (_balance>=food.getprice())
     {
-        new_reserve.setstudent(*this);
         new_reserve.setmeal(food);
         //new_reserve.setdininghall();
         //new_reserve.setcareatedat();
@@ -49,7 +53,7 @@ void Student::reserve_meal(Meal food)
 bool Student:: cancel_reservation(Reservation reserve)
 {
      char ans;
-     if(reserve.getstatus()==Success){
+     if(reserve.getrstatus()==Success){
      cout<<"\nAre you sure you want to cancel? Y/N";
      cin>>ans;
      if (ans=='y'||ans=='Y')
@@ -67,20 +71,19 @@ bool Student:: cancel_reservation(Reservation reserve)
 
 Reservation::Reservation()
     : _reservation_id(0),
-      _student(),
       _dHall(),
       _meal(),
-      _status(Success),
+      _rstatus(Success),
       _created_at(time(nullptr))
 {}
 void Reservation::print()const
 {
-    cout<<"\n---Reaservation info---"<<"\nReservation ID: "<<getreserveid()<<"\nStudent name: "<<getstudent().getname()<<"\tStudent ID: "<<getstudent().getstudentid()
+    cout<<"\n---Reaservation info---"<<"\nReservation ID: "<<getreserveid()
     <<"\nMeal: "<<getmeal().getname()<<"\tDining Hall: "<<getdininghall().getname()<<getdininghall().gethallid()<<"\nTime:"<<getcreatedat();
 }
 bool Reservation::cancel()
 {
-    Status(Cancelled);
+    RStatus(Cancelled);
     cout<<"Reservation cancelled.";
     return true;
 }
@@ -131,3 +134,49 @@ void DiningHall::print()const
 {
     cout<<"\n---Dining Hall info---"<<"\nDining Hall name: "<<getname()<<gethallid()<<"\tCapacity: "<<getcapacity()<<"\nAddress: "<<getadd();
 }
+
+//admin
+void Admin::print()const
+{}
+void Admin::getType(){}
+
+//panel
+void Panel::action(int act){}
+void Panel::showmenu()
+{
+    cout<<"\n---User Panel---"
+        <<"\n1.Meal reservation 🍽️"
+        <<"\n2.All reservations✅"
+        <<"\n3.Add credit💰"
+        <<"\n4.Transaction history📁"
+        <<"\n5.Setting⚙️";
+}
+void Panel::showStudentInfo(){}
+void Panel::checkBalance(){}
+void Panel::viewReservations(){}
+void Panel::addReservation(Reservation){}
+void Panel::addToShoppingCart(){}
+void Panel::confirmShoppingCart(){}
+void Panel::removeShoppingCartItem(){}
+void Panel::increaseBalance(){}
+void Panel::viewRecentTransactions(){}
+void Panel::cancelReservation(int){}
+void Panel::exit(){exit;}
+
+//storage
+
+//user
+User::User(int userid,string name,string lastname,string hashedpass)
+{
+    setuserid(userid);
+    setname(name);
+    setlastname(lastname);
+    sethashedpass(hashedpass);
+}
+void User::print()const
+{
+ cout<<"\nUser ID:"<<User::getuserid()<<"\nFull Name:"<<User::getname()<<" "<<getlastname()
+ <<"\nHashed password: "<<gethashedpass();
+}
+void User::getType()
+{}
