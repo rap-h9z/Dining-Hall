@@ -10,10 +10,10 @@ class Storage
    int _dininghallIDcounter;
    vector<Meal> allmeals;
    vector<DiningHall> alldininghalls;
+   Storage(): _mealIDcounter(0), _dininghallIDcounter(0) {}
    public:
-   Storage();
-   Storage(const Storage &);
-   Storage operator=(const Storage &)
-   static Storage& intance();
+   Storage(const Storage &)=delete;
+   Storage &operator=(const Storage &)=delete;
+   static Storage& instance();
 };
 #endif

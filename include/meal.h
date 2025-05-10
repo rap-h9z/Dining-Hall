@@ -5,6 +5,7 @@
 #include <vector>
 using namespace std;
 enum MealT{Breakfast,Lunch,Dinner};
+enum ReserveDay{Saturday,Sunday,Monday,Tuesday,Wednesday};
 class Meal
 {
     int _meal_id;
@@ -19,6 +20,8 @@ class Meal
     void print()const;
     void update_price(float new_price);
     void add_side_item(string item);
+    bool isactive();
+    MealT getmealtype();
 
     //setters()
     void setmealid(int mealid)
@@ -32,6 +35,7 @@ class Meal
     }
     void setmealtype(MealT mealtype){_meal_type=mealtype;}
     void setsideitems(vector<string> sideitem){_side_items=sideitem;}
+    void setreserveday(ReserveDay reserveday){_reserveday=reserveday;}
 
     //getters()
     int getmealid()const{return _meal_id;}
@@ -39,5 +43,6 @@ class Meal
     float getprice()const{return _price;}
     MealT getmealtype()const{return _meal_type;}
     vector<string> getsideitems()const{return _side_items;}
+    ReserveDay getreserveday()const{return _reserveday;}
 };
 #endif

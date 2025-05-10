@@ -12,10 +12,14 @@ class User
     public:
     virtual void print()const;
     virtual void getType();
+
+    //setters
     void setuserid(int userid){_user_ID=userid;}
     void setname(string name){_name=name;}
     void setlastname(string lastname){_last_name=lastname;}
-    void hashedpass(string hashedpass){_hashedpassword=hashedpass;}
+    void sethashedpass(string hashedpass){_hashedpassword=hashedpass;}
+
+    //getters
     int getuseid(){return _user_ID;}
     string getname(){return _name;}
     string getlastname(){return _last_name;}

@@ -14,6 +14,7 @@ class Student:public User
     string _student_id;
     string _name;
     string _email;
+    string _phone;
     float _balance;
     bool _is_active;
     vector<Reservation> _reservations;
@@ -22,6 +23,10 @@ class Student:public User
     void print()const;
     void reserve_meal(Meal);
     bool cancel_reservation(Reservation);
+    bool isactive();
+    void activated();
+    void deavtivated();
+    void getType();
 
     //setters()
     void setuserid(int userid)
@@ -49,6 +54,13 @@ class Student:public User
         else 
            throw runtime_error("INVALID !!");
 
+    }
+    void setphone(string phone)
+    {
+        if (phone.length()==11)
+            _phone=phone;
+        else
+            throw runtime_error("INVALID phone number!!");   
     }
     void setbalance(float balance){_balance=(balance>=0)?balance:0;}
     void setactive(bool active){_is_active=active;}

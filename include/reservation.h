@@ -6,15 +6,14 @@
 #include "dininghall.h"
 using namespace std;
 
-enum Status{Success,Cancelled,Failed};
+enum RStatus{Success,Cancelled,Failed};
 
 class Reservation
 {
     int _reservation_id;
-    Student _student;
-    DiningHall _dHall;
-    Meal _meal;
-    Status _status;
+    DiningHall *_dHall;
+    Meal *_meal;
+    RStatus _rstatus;
     time_t _created_at;
     public:
     Reservation();
@@ -23,10 +22,9 @@ class Reservation
 
     //setters()
     void setreserveid(int reservationid){_reservation_id=reservationid;}
-    void setstudent(Student student){_student=student;}
-    void setdininghall(DiningHall dhall){_dHall=dhall;}
-    void setmeal(Meal meal){_meal=meal;}
-    void setstatus(Status status){_status=status;}
+    void setdininghall(DiningHall dhall){_dHall=&dhall;}
+    void setmeal(Meal meal){_meal=&meal;}
+    void setstatus(RStatus rstatus){_rstatus=rstatus;}
     void setcareatedat(time_t createdat)
     {
         _created_at=((createdat>=0)?createdat:0);
@@ -34,10 +32,9 @@ class Reservation
 
     //getters()
     int getreserveid()const{return _reservation_id;}
-    Student getstudent()const{return _student;}
-    DiningHall getdininghall()const{return _dHall;}
-    Meal getmeal()const{return _meal;}
-    Status getstatus()const{return _status;}
+    DiningHall getdininghall()const{return *_dHall;}
+    Meal getmeal()const{return *_meal;}
+    RStatus getrstatus()const{return _rstatus;}
     time_t getcreatedat()const{return _created_at;}
 };
 #endif
