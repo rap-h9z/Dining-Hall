@@ -3,11 +3,12 @@
 #include <iostream>
 #include <string.h>
 #include <algorithm>
+#include"user.h"
 #include "meal.h"
 #include "reservation.h"
 using namespace std;
 
-class Student
+class Student:public User
 {
     int _user_id;
     string _student_id;

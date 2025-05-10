@@ -12,6 +12,8 @@ class Meal
     float _price;
     MealT _meal_type;
     vector<string> _side_items;
+    bool _is_active;
+    ReserveDay _reserveday;
     public:
     Meal();
     void print()const;
