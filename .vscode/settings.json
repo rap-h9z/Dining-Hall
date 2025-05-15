@@ -47,5 +47,7 @@
         "vector": "cpp",
         "algorithm": "cpp",
         "iostream": "cpp"
-    }
+    },
+    "C_Cpp.dimInactiveRegions": false,
+    "C_Cpp.errorSquiggles": "enabled"
 }

@@ -5,7 +5,7 @@
 #include "dininghall.h"
 using namespace std;
 
-enum RStatus{Success,Cancelled,Failed};
+enum RStatus{Success,Cancelled,Failed,Not_Paid};
 
 class Reservation
 {
