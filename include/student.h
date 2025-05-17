@@ -10,16 +10,14 @@ using namespace std;
 
 class Student:public User
 {
-    int _user_id;
     string _student_id;
-    string _name;
     string _email;
     string _phone;
     float _balance;
     bool _is_active;
     vector<Reservation> _reservations;
     public:
-    Student();
+    Student(int userid=000000,string name=" ",string lastname=" ",string hashedpass=" ",string studentid=" ",string email=" ",string phone=" ",float balance=0.00,bool active=false);
     void print()const;
     void reserve_meal(Meal);
     bool cancel_reservation(Reservation);
@@ -29,14 +27,6 @@ class Student:public User
     void getType();
 
     //setters()
-    void setuserid(int userid)
-    {
-       if (userid>=10000000)
-          _user_id=userid;
-        else
-            throw runtime_error("User ID must be at least 8 digits.");  
-       
-    }
     void setstudentid(string studentid)
     {
         if (studentid.length()==10&& all_of(studentid.begin(),studentid.end(),::isdigit))
@@ -46,7 +36,6 @@ class Student:public User
             throw runtime_error("Student ID must be 10 digits.");
         }
     }
-    void setname(string name){_name=name;}
     void setemail(string email)
     {
         if(email.find('@gimail.com')!=string::npos)
@@ -67,9 +56,7 @@ class Student:public User
     void setreservations(vector<Reservation> reservations){_reservations=reservations;}
 
     //getters()
-    int getuserid()const{return _user_id;}
     string getstudentid()const{return _student_id;}
-    string getname()const{return _name;}
     string getemail()const{return _email;}
     string getphone()const{return _phone;}
     float getbalance()const{return _balance;}

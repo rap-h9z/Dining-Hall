@@ -15,7 +15,14 @@ class User
     virtual void getType();
 
     //setters
-    void setuserid(int userid){_user_ID=userid;}
+    void setuserid(int userid)
+    {
+       if (userid>=10000000)
+          _user_ID=userid;
+        else
+            throw runtime_error("User ID must be at least 8 digits.");  
+       
+    }
     void setname(string name){_name=name;}
     void setlastname(string lastname){_last_name=lastname;}
     void sethashedpass(string hashedpass){_hashedpassword=hashedpass;}

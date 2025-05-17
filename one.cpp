@@ -8,13 +8,28 @@ using namespace std;
 #include "include/panel.h"
 #include "include/storage.h"
 #include"include/user.h"
+
+//user
+User::User(int userid,string name,string lastname,string hashedpass)
+{
+    setuserid(userid);
+    setname(name);
+    setlastname(lastname);
+    sethashedpass(hashedpass);
+}
+void User::print()const
+{
+ cout<<"\nUser ID:"<<User::getuserid()<<"\nFull Name:"<<User::getname()<<" "<<getlastname()
+ <<"\nHashed password: "<<gethashedpass();
+}
+void User::getType()
+{}
 //student
 
-Student::Student()
+Student:: Student(int userid,string name,string lastname,string hashedpass,string studentid,string email,string phone,float balance,bool active)
+:User(userid,name,lastname,hashedpass)
 {
-   _user_id=000000000;
    _student_id="0000000000";
-   _name="Unknown";
    _email="Unknown@gmail.com";
    _balance=0.00;
    _is_active=false;
@@ -22,7 +37,9 @@ Student::Student()
 }
 void Student::print()const
 {
-    cout<<"\n---Student info---"<<"\nUser ID: "<<getuserid()<<"\tUsername: "<<getname()<<"\nPhone: "<<getphone()<<"\nEmail: "<<getemail()<<"\nBalance: "<<getbalance()<<"\tStatus: ";
+    cout<<"\n---Student info---";
+    User::print();
+    cout<<"\nPhone: "<<getphone()<<"\nEmail: "<<getemail()<<"\nBalance: "<<getbalance()<<"\tStatus: ";
     if(getactive())
        cout<<"Active";
     else
@@ -67,6 +84,15 @@ bool Student:: cancel_reservation(Reservation reserve)
      
 }
 
+//admin
+void Admin::print()const
+{
+    cout<<"\n---Admin Info---";
+    User::print();
+}
+void Admin::getType(){}
+
+
 //reservation
 
 Reservation::Reservation()
@@ -78,8 +104,11 @@ Reservation::Reservation()
 {}
 void Reservation::print()const
 {
-    cout<<"\n---Reaservation info---"<<"\nReservation ID: "<<getreserveid()
-    <<"\nMeal: "<<getmeal().getname()<<"\tDining Hall: "<<getdininghall().getname()<<getdininghall().gethallid()<<"\nTime:"<<getcreatedat();
+    _meal->print();
+    cout<<"\nTime:"<<getcreatedat();
+    cout<<"\nReservation ID: "<<getreserveid()
+    <<"\nDining Hall: ";
+    _dHall->print();
 }
 bool Reservation::cancel()
 {
@@ -95,12 +124,13 @@ Meal::Meal()
      _name(" "),
      _price(0.00),
      _meal_type(Breakfast),
-     _side_items()
+     _side_items(),
+     _reserveday(Saturday)
 {}     
 
 void Meal::print()const
 {
-    cout<<"\n---Meal info---"<<"\nMeal type: "<<getmealtype()<<"\tMeal name: "<<getname()<<"\tSide items: ";
+    cout<<"\n▶︎Day: "<<getreserveday()<<"\tMeal type: "<<getmealtype()<<"\tMeal name: "<<getname()<<"\nSide items: ";
     for (const string& item : _side_items) {
         cout << item << ",";
     }
@@ -132,51 +162,80 @@ DiningHall::DiningHall()
 {}
 void DiningHall::print()const
 {
-    cout<<"\n---Dining Hall info---"<<"\nDining Hall name: "<<getname()<<gethallid()<<"\tCapacity: "<<getcapacity()<<"\nAddress: "<<getadd();
+    cout<<"Dining Hall name: "<<getname()<<gethallid()<<"\tCapacity: "<<getcapacity()<<"\nAddress: "<<getadd();
 }
 
-//admin
-void Admin::print()const
-{}
-void Admin::getType(){}
-
 //panel
-void Panel::action(int act){}
+void Panel::action(int act)
+{
+    switch (act)
+    {
+    case 1:
+        showStudentInfo();
+        break;
+    case 2:
+        
+        break;
+    case 3:
+        viewReservations();
+        break;
+    case 4:
+        checkBalance();
+        break;
+    case 5:
+        increaseBalance();
+        break;
+    case 6:
+        
+        break;
+    case 7:
+        exit();    
+    default:
+        break;
+    }
+}
 void Panel::showmenu()
 {
     cout<<"\n---User Panel---"
-        <<"\n1.Meal reservation 🍽️"
-        <<"\n2.All reservations✅"
-        <<"\n3.Add credit💰"
-        <<"\n4.Transaction history📁"
-        <<"\n5.Setting⚙️";
+        <<"\n1.My info"
+        <<"\n2.Meal reservation 🍽️"
+        <<"\n3.My reservations✅"
+        <<"\n4.My balance💶"
+        <<"\n5.Add credit💰"
+        <<"\n6.Transaction history📁"
+        <<"\n7.exit👋🏻";
 }
-void Panel::showStudentInfo(){}
-void Panel::checkBalance(){}
-void Panel::viewReservations(){}
-void Panel::addReservation(Reservation){}
-void Panel::addToShoppingCart(){}
-void Panel::confirmShoppingCart(){}
-void Panel::removeShoppingCartItem(){}
-void Panel::increaseBalance(){}
-void Panel::viewRecentTransactions(){}
-void Panel::cancelReservation(int){}
-void Panel::exit(){exit;}
+void Panel::showStudentInfo()
+{
+   _student->print();
+}
+void Panel::checkBalance()
+{
+    cout<<"\nYour Balance: "<<_student->getbalance();
+}
+void Panel::viewReservations()
+{
+    vector<Reservation> reservations = _student->getreservations();
+    cout<<"\n---Reservations---";
+
+    if(_student->getreservations().empty()){
+       cout<<"\nNo reservations.";}
+
+    for (int i = 0; i < reservations.size(); ++i) {
+        reservations[i].print();}
+
+}
+//void Panel::addToShoppingCart(){}
+//void Panel::confirmShoppingCart(){}
+//void Panel::removeShoppingCartItem(){}
+void Panel::increaseBalance()
+{float amount;
+    cout<<"Enter the deposit amount: ";
+    cin>>amount;
+    _student->setbalance(_student->getbalance()+amount);
+}
+//void Panel::viewRecentTransactions(){}
+//void Panel::cancelReservation(int){}
+void Panel::exit(){exit();}
 
 //storage
-
-//user
-User::User(int userid,string name,string lastname,string hashedpass)
-{
-    setuserid(userid);
-    setname(name);
-    setlastname(lastname);
-    sethashedpass(hashedpass);
-}
-void User::print()const
-{
- cout<<"\nUser ID:"<<User::getuserid()<<"\nFull Name:"<<User::getname()<<" "<<getlastname()
- <<"\nHashed password: "<<gethashedpass();
-}
-void User::getType()
-{}

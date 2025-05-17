@@ -3,6 +3,7 @@
 #include <string.h>
 #include <iostream>
 #include "dininghall.h"
+#include "meal.h"
 using namespace std;
 
 enum RStatus{Success,Cancelled,Failed,Not_Paid};
