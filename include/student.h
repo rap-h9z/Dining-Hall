@@ -38,7 +38,7 @@ class Student:public User
     }
     void setemail(string email)
     {
-        if(email.find('@gimail.com')!=string::npos)
+        if(email.find("@gmail.com")!=string::npos)
            _email=email;
         else 
            throw runtime_error("INVALID !!");

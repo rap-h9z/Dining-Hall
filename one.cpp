@@ -1,7 +1,5 @@
-using namespace std;
-using namespace StudentSession;
-using namespace AdminSession;
 #include <iostream>
+using namespace std;
 #include "include/student.h"
 #include "include/reservation.h"
 #include "include/meal.h"
@@ -34,11 +32,11 @@ void User::getType()
 Student:: Student(int userid,string name,string lastname,string hashedpass,string studentid,string email,string phone,float balance,bool active)
 :User(userid,name,lastname,hashedpass)
 {
-   _student_id="0000000000";
-   _email="Unknown@gmail.com";
-   _balance=0.00;
-   _is_active=false;
-   _phone="0900000000000";
+   _student_id=studentid;
+   _email=email;
+   _balance=balance;
+   _is_active=active;
+   _phone=phone;
 }
 void Student::print()const
 {
@@ -118,7 +116,7 @@ void Reservation::print()const
 }
 bool Reservation::cancel()
 {
-    RStatus(Cancelled);
+    setrstatus(Cancelled);
     cout<<"Reservation cancelled.";
     return true;
 }
@@ -227,7 +225,7 @@ void Panel::viewReservations()
     if(_student->getreserves().empty()){
        cout<<"\nNo reservations.";}
 
-    for (int i = 0; i < reservations.size(); ++i) {
+    for (unsigned long i = 0; i < reservations.size(); ++i) {
         reservations[i].print();}
 
 }
@@ -259,7 +257,7 @@ void Shoppingcart::addreservation(Reservation reservation)
 }
 void Shoppingcart::removereservation(int ID)
 {
-    for (int i=0; i < _reservations.size(); i++)
+    for (unsigned long i=0; i < _reservations.size(); i++)
         if (_reservations[i].getreserveid()==ID){
             _reservations.erase(_reservations.begin()+i);
             cout<<"Successfully Removed";
@@ -269,7 +267,7 @@ void Shoppingcart::removereservation(int ID)
 void Shoppingcart::viewshoppingcartitems()
 {
     cout<<"\n---Shoppingcart 🛒---";
-    for (int i=0; i <_reservations.size(); i++)
+    for (unsigned long i=0; i <_reservations.size(); i++)
     {
         _reservations[i].print();
     }
@@ -280,7 +278,7 @@ void Shoppingcart::clear()
     _reservations.clear();
 }
 //Trnsaction
-Transaction::Transaction(int tid,string trackcode,float amount,TransactionType type,TransactionStatus status,time_t careatedat)
+Transaction::Transaction(int tid,string trackcode,float amount,TransactionE::TransactionType type,TransactionE::TransactionStatus status,time_t careatedat)
 {
     settranid(tid);
     settrackcode(trackcode);
