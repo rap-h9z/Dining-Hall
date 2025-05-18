@@ -1,4 +1,6 @@
 using namespace std;
+using namespace StudentSession;
+using namespace AdminSession;
 #include <iostream>
 #include "include/student.h"
 #include "include/reservation.h"
@@ -7,7 +9,10 @@ using namespace std;
 #include "include/admin.h"
 #include "include/panel.h"
 #include "include/storage.h"
-#include"include/user.h"
+#include "include/user.h"
+#include "include/shoppingcart.h"
+#include "include/transaction.h"
+#include "include/session.h"
 
 //user
 User::User(int userid,string name,string lastname,string hashedpass)
@@ -56,15 +61,16 @@ void Student::reserve_meal(Meal food)
         new_reserve.setmeal(food);
         //new_reserve.setdininghall();
         //new_reserve.setcareatedat();
-        new_reserve.setstatus(Success);
-        //new_reserve.getreserveid();
+        //new_reserve.setreserveid();
+        new_reserve.setrstatus(Success);
 
         _balance-=food.getprice();
-        _reservations.push_back(new_reserve);
-        cout<<"\nReservation was successful.";
+        _reserves.push_back(new_reserve);
+        cout<<"\nReservation was successful."<<"\nYour reservation ID: "<<new_reserve.getreserveid();
+        
     }
     else
-        cout<<"\nNot enough inventory!";
+        cout<<"\nNot enough credit!";
     
 }
 bool Student:: cancel_reservation(Reservation reserve)
@@ -75,7 +81,7 @@ bool Student:: cancel_reservation(Reservation reserve)
      cin>>ans;
      if (ans=='y'||ans=='Y')
      {
-        reserve.setstatus(Cancelled);
+        reserve.setrstatus(Cancelled);
         _balance+=reserve.getmeal().getprice();
         return true;
      }
@@ -106,7 +112,7 @@ void Reservation::print()const
 {
     _meal->print();
     cout<<"\nTime:"<<getcreatedat();
-    cout<<"\nReservation ID: "<<getreserveid()
+    cout<<"\nReservation ID: "<<getreserveid()<<"\tReservation status: "<<getrstatus()
     <<"\nDining Hall: ";
     _dHall->print();
 }
@@ -215,10 +221,10 @@ void Panel::checkBalance()
 }
 void Panel::viewReservations()
 {
-    vector<Reservation> reservations = _student->getreservations();
+    vector<Reservation> reservations = _student->getreserves();
     cout<<"\n---Reservations---";
 
-    if(_student->getreservations().empty()){
+    if(_student->getreserves().empty()){
        cout<<"\nNo reservations.";}
 
     for (int i = 0; i < reservations.size(); ++i) {
@@ -239,3 +245,92 @@ void Panel::increaseBalance()
 void Panel::exit(){exit();}
 
 //storage
+Storage& Storage::instance()
+{
+    static Storage _storage;
+    return _storage;
+}
+//shoppintcart
+void Shoppingcart::addreservation(Reservation reservation)
+{
+    _reservations.push_back(reservation);
+    reservation.setrstatus(Not_Paid);
+    cout<<"Added to Shppingcart";
+}
+void Shoppingcart::removereservation(int ID)
+{
+    for (int i=0; i < _reservations.size(); i++)
+        if (_reservations[i].getreserveid()==ID){
+            _reservations.erase(_reservations.begin()+i);
+            cout<<"Successfully Removed";
+            break;
+        }
+}
+void Shoppingcart::viewshoppingcartitems()
+{
+    cout<<"\n---Shoppingcart 🛒---";
+    for (int i=0; i <_reservations.size(); i++)
+    {
+        _reservations[i].print();
+    }
+    
+}
+void Shoppingcart::clear()
+{
+    _reservations.clear();
+}
+//Trnsaction
+Transaction::Transaction(int tid,string trackcode,float amount,TransactionType type,TransactionStatus status,time_t careatedat)
+{
+    settranid(tid);
+    settrackcode(trackcode);
+    setamout(amount);
+    settrantype(type);
+    settranstatus(status);
+    setcreatedat(careatedat);
+}
+
+//Studentsession
+StudentSession::SessionManager::SessionManager()
+{_currentStudent = nullptr;
+    _shopping_cart = nullptr;
+    _studentID = 0;
+}
+
+StudentSession::SessionManager& StudentSession::SessionManager::instance() {
+    static SessionManager _studentmanager;
+    return _studentmanager;
+}
+//void StudentSession::SessionManager::load_session(){}
+//void StudentSession::SessionManager::save_session(){}
+//void StudentSession::SessionManager::login(string, string){}
+//void StudentSession::SessionManager::logout(){}
+Student StudentSession::SessionManager::currentStudent()
+{
+    return *_currentStudent;
+}
+Shoppingcart StudentSession::SessionManager::shoppingCart()
+{
+    return *_shopping_cart;
+}
+
+//AdminSession
+AdminSession::SessionManager::SessionManager()
+{
+    _currentAdmin=nullptr;
+    _adminID=0;
+}
+//void AdminSession::SessionManager::load_session(){}
+//void AdminSession::SessionManager::save_session(){}
+//void AdminSession::SessionManager::login(string, string){}
+//void AdminSession::SessionManager::logout(){}
+Admin AdminSession::SessionManager::currentAdmin()
+{
+    return *_currentAdmin;
+}
+AdminSession::SessionManager& AdminSession::SessionManager::instance() {
+    static SessionManager _adminmanager;
+    return _adminmanager;
+}
+
+

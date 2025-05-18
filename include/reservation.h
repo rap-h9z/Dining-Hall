@@ -24,7 +24,7 @@ class Reservation
     void setreserveid(int reservationid){_reservation_id=reservationid;}
     void setdininghall(DiningHall dhall){_dHall=&dhall;}
     void setmeal(Meal meal){_meal=&meal;}
-    void setstatus(RStatus rstatus){_rstatus=rstatus;}
+    void setrstatus(RStatus rstatus){_rstatus=rstatus;}
     void setcareatedat(time_t createdat)
     {
         _created_at=((createdat>=0)?createdat:0);

@@ -1,8 +1,8 @@
-#ifdef SESSION_H_INCLUDED
-#define SESSION_H_INCLUDED
+#ifndef SESSION_H
+#define SESSION_H
 #include<iostream>
 #include"student.h"
-#include"shoppingcard.h"
+#include"shoppingcart.h"
 using namespace std;
 enum SessionStatus{Authenticated,Anonymous};
 class SessionBase
@@ -19,7 +19,7 @@ class SessionBase
     virtual void logout()=0;
 
     //setters
-    void setcreatedat(time_t time){_craetedat=time;}
+    void setcreatedat(time_t time){_createdat=time;}
     void setlasttimelogin(time_t lasttime){_lasttimeLogin=lasttime;}
     void setSstatus(SessionStatus status){_status=status;}
     
@@ -33,9 +33,9 @@ namespace StudentSession{
 class SessionManager:protected SessionBase
 {
     Student *_currentStudent;
-    Shoppingcard *_shopping_card;
+    Shoppingcart *_shopping_cart;
     int _studentID;
-    sessionManager();
+    SessionManager();
     SessionManager(const SessionManager&) = delete;
     SessionManager& operator=(const SessionManager&) = delete;
     
@@ -45,12 +45,12 @@ class SessionManager:protected SessionBase
     void login(string, string) override;
     void logout()override;
     Student currentStudent();
-    Shoppingcard shoppingCard();
-    static SessionManager instance();
+    Shoppingcart shoppingCart();
+    static SessionManager& instance();
 
     //getters
-    Student getcurrentstudent()const{return _currentStudent;}
-    Shoppingcard getshoppingcard()const{return _shopping_card;}
+    Student getcurrentstudent()const{return *_currentStudent;}
+    Shoppingcart getshoppingcart()const{return *_shopping_cart;}
     int getstudentid()const{return _studentID;}
 
 };
@@ -70,8 +70,9 @@ class SessionManager:protected SessionBase
     void save_session()override;
     void login(string, string)override;
     void logout()override;
+    int getadminid()const{return _adminID;}
     Admin currentAdmin();
-    static SessionManager instance();
+    static SessionManager& instance();
 };
 }
 #endif
